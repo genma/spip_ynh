@@ -1,4 +1,3 @@
-TEST
 # SPIP for YunoHost
 
 ## SPIP c'est quoi ?
