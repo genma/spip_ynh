@@ -53,7 +53,6 @@ ynh_app_setting_set --app=$app --key=domain --value=$domain
 ynh_app_setting_set --app=$app --key=path --value=$path_url
 ynh_app_setting_set --app=$app --key=admin --value=$admin
 ynh_app_setting_set --app=$app --key=password --value=$password
-ynh_app_setting_set --app=$app --key=is_public --value=$is_public
 ynh_app_setting_set --app=$app --key=users_status --value=$users_status
 
 #=================================================
@@ -110,7 +109,7 @@ mkdir -p $final_path/plugins/auto
 chown -R $app: $final_path
 
 # Set the app as temporarily public for curl call
-ynh_app_setting_set --app=$app --key=skipped_uris --value="/"
+
 # Reload SSOwat config
 yunohost app ssowatconf
 
@@ -145,7 +144,7 @@ email=$(yunohost user info $admin | grep mail: | cut -d' ' -f2 | tr -d '\n')
 ynh_local_curl "/ecrire/?suivant" "exec=install" "etape=3b" "adresse_db=localhost" "login_db=$db_name" "pass_db=$db_pwd" "server_db=mysql" "sel_db=$db_name" "nom=$admin" "email=$email" "login=$admin" "pass=$password" "pass_verif=$password"
 ynh_local_curl "/ecrire/?suivant" "exec=install" "etape=fin"
 
-ynh_app_setting_delete --app=$app --key=skipped_uris
+
 
 #=================================================
 # MODIFY A CONFIG FILE
@@ -171,10 +170,12 @@ ynh_store_file_checksum --file="$final_path/config/connect.php"
 #=================================================
 ynh_script_progression --message="Configuring SSOwat..."
 
+
+
 # Make app public if necessary
-if [ $is_public -eq 1 ]; then
-	# unprotected_uris allows SSO credentials to be passed anyway.
-	ynh_app_setting_set --app=$app --key=unprotected_uris --value="/"
+if [ "$is_public" -eq 1 ]
+then
+	ynh_permission_update --permission="main" --add="visitors"
 fi
 
 #=================================================
