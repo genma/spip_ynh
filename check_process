@@ -14,12 +14,11 @@
 		setup_private=1
 		setup_public=1
 		upgrade=1
-		upgrade=1	from_commit=2016c3a3a972dc74d1ae1ec74ff80987eb753ce9
+		upgrade=1	from_commit=e079b0d81e698c9cde7e9ce50b29da1d5715bf65
 		backup_restore=1
 		multi_instance=1
 		port_already_use=0
 		change_url=1
 ;;; Upgrade options
-	; commit=2016c3a3a972dc74d1ae1ec74ff80987eb753ce9
-		name=21 Nov 2017
-		manifest_arg=domain=DOMAIN&path=PATH&admin=USER&language=fr_FR&is_public="Yes"&ldap=No
+	; commit=e079b0d81e698c9cde7e9ce50b29da1d5715bf65
+		name=3.2.4~ynh1
