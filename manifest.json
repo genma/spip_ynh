@@ -1,64 +1,64 @@
 {
-	"name": "SPIP",
-	"id": "spip",
-	"packaging_format": 1,
-	"description": {
-		"en": "CMS with a focus on collaborative edition and multilingualism",
-		"fr": "CMS conçu pour l'édition collaborative et le multilinguisme"
-	},
-	"version": "3.2.11~ynh2",
-	"url": "http://www.spip.net/",
-	"license": "GPL-3.0-or-later",
-	"maintainer": {
-		"name": "cyp",
-		"email": "cyp@rouquin.me"
-	},
-	"requirements": {
-		"yunohost": ">= 4.1.0"
-	},
-	"multi_instance": true,
-	"services": [
-		"nginx",
-		"mysql"
-	],
-	"arguments": {
-		"install" : [
+    "name": "SPIP",
+    "id": "spip",
+    "packaging_format": 1,
+    "description": {
+        "en": "CMS with a focus on collaborative edition and multilingualism",
+        "fr": "CMS conçu pour l'édition collaborative et le multilinguisme"
+    },
+    "version": "3.2.11~ynh2",
+    "url": "http://www.spip.net/",
+    "license": "GPL-3.0-or-later",
+    "maintainer": {
+        "name": "cyp",
+        "email": "cyp@rouquin.me"
+    },
+    "requirements": {
+        "yunohost": ">= 4.1.0"
+    },
+    "multi_instance": true,
+    "services": [
+        "nginx",
+        "mysql"
+    ],
+    "arguments": {
+        "install" : [
             {
                 "name": "domain",
                 "type": "domain",
                 "example": "example.com"
             },
-			{
-				"name": "path",
-				"type": "path",
-				"example": "/spip",
-				"default": "/spip"
-			},
-			{
-				"name": "admin",
-				"type": "user",
-				"example": "johndoe"
-			},
-			{
-				"name": "password",
-				"type": "password",
+            {
+                "name": "path",
+                "type": "path",
+                "example": "/spip",
+                "default": "/spip"
+            },
+            {
+                "name": "admin",
+                "type": "user",
+                "example": "johndoe"
+            },
+            {
+                "name": "password",
+                "type": "password",
                 "example": "Choose a password"
-			},
-			{
-				"name": "is_public",
-				"type": "boolean",
-				"default": true
-			},
-			{
-				"name": "users_status",
-				"type": "string",
-				"ask": {
-					"en": "Choose the status of YunoHost users",
-					"fr": "Choisissez le status des utilisateurs de YunoHost"
-				},
-				"choices": ["Administrator", "Editor", "Visitor"],
-				"default": "Editor"
-			}
-		]
-	}
+            },
+            {
+                "name": "is_public",
+                "type": "boolean",
+                "default": true
+            },
+            {
+                "name": "users_status",
+                "type": "string",
+                "ask": {
+                    "en": "Choose the status of YunoHost users",
+                    "fr": "Choisissez le status des utilisateurs de YunoHost"
+                },
+                "choices": ["Administrator", "Editor", "Visitor"],
+                "default": "Editor"
+            }
+        ]
+    }
 }
