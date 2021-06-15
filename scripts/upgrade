@@ -24,8 +24,37 @@ is_public=$(ynh_app_setting_get --app=$app --key=is_public)
 final_path=$(ynh_app_setting_get --app=$app --key=final_path)
 users_status=$(ynh_app_setting_get --app=$app --key=users_status)
 db_name=$(ynh_app_setting_get --app=$app --key=db_name)
+db_user=$db_name
 db_pwd=$(ynh_app_setting_get --app=$app --key=mysqlpwd)
 
+#=================================================
+# CHECK VERSION
+#=================================================
+ynh_script_progression --message="Checking version..."
+
+upgrade_type=$(ynh_check_app_version_changed)
+
+#=================================================
+# BACKUP BEFORE UPGRADE THEN ACTIVE TRAP
+#=================================================
+ynh_script_progression --message="Backing up the app before upgrading (may take a while)..."
+
+# Backup the current version of the app
+ynh_backup_before_upgrade
+ynh_clean_setup () {
+	if [ $migration_process -eq 1 ]; then
+		yunohost app remove $app
+		# Reload some values changed by the migration process
+		app=$YNH_APP_INSTANCE_NAME
+	fi
+	# Restore it if the upgrade fails
+	ynh_restore_upgradebackup
+}
+# Exit if an error occurs during the execution of the script
+ynh_abort_if_errors
+
+#=================================================
+# STANDARD UPGRADE STEPS
 #=================================================
 # ENSURE DOWNWARD COMPATIBILITY
 #=================================================
@@ -71,24 +100,10 @@ if [ -z $password ]; then
 	ynh_app_setting_set --app=$app --key=password --value=$password
 fi
 
-#=================================================
-# BACKUP BEFORE UPGRADE THEN ACTIVE TRAP
-#=================================================
-ynh_script_progression --message="Backing up the app before upgrading (may take a while)..."
-
-# Backup the current version of the app
-ynh_backup_before_upgrade
-ynh_clean_setup () {
-	if [ $migration_process -eq 1 ]; then
-		yunohost app remove $app
-		# Reload some values changed by the migration process
-		app=$YNH_APP_INSTANCE_NAME
-	fi
-	# restore it if the upgrade fails
-	ynh_restore_upgradebackup
-}
-# Exit if an error occurs during the execution of the script
-ynh_abort_if_errors
+# Cleaning legacy permissions
+if ynh_legacy_permissions_exists; then
+	ynh_legacy_permissions_delete_all
+fi
 
 #=================================================
 # HANDLE MIGRATION FROM SPIP2
@@ -103,37 +118,43 @@ if [ $migration_process -eq 1 ]; then
 fi
 
 #=================================================
-# STANDARD UPGRADE STEPS
+# CREATE DEDICATED USER
+#=================================================
+ynh_script_progression --message="Making sure dedicated system user exists..."
+
+# Create a dedicated user (if not existing)
+ynh_system_user_create --username=$app --home_dir=$final_path
+
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
-ynh_script_progression --message="Upgrading source files..."
 
-# Download, check integrity, uncompress and patch the source from app.src
-ynh_setup_source --dest_dir="$final_path"
+if [ "$upgrade_type" == "UPGRADE_APP" ]
+then
+	ynh_script_progression --message="Upgrading source files..."
+
+	# Download, check integrity, uncompress and patch the source from app.src
+	ynh_setup_source --dest_dir="$final_path"
+fi
+
+chmod 750 "$final_path"
+chmod -R o-rwx "$final_path"
+chown -R $app:www-data "$final_path"
 
 #=================================================
 # NGINX CONFIGURATION
 #=================================================
 ynh_script_progression --message="Upgrading NGINX web server configuration..."
 
-# Create a dedicated nginx config
+# Create a dedicated NGINX config
 ynh_add_nginx_config
-
-#=================================================
-# CREATE DEDICATED USER
-#=================================================
-ynh_script_progression --message="Making sure dedicated system user exists..."
-
-# Create a dedicated user (if not existing)
-ynh_system_user_create --username=$app
 
 #=================================================
 # PHP-FPM CONFIGURATION
 #=================================================
 ynh_script_progression --message="Upgrading PHP-FPM configuration..."
 
-# Create a dedicated php-fpm config
+# Create a dedicated PHP-FPM config
 ynh_add_fpm_config --package="$extra_php_dependencies"
 
 #=================================================
@@ -141,20 +162,23 @@ ynh_add_fpm_config --package="$extra_php_dependencies"
 #=================================================
 # SETUP APPLICATION WITH CURL
 #=================================================
+ynh_script_progression --message="Setuping application with CURL..."
 
 # Set right permissions for curl install
 mkdir -p $final_path/plugins/auto
-chown -R $app: $final_path
+chown -R $app:www-data "$final_path"
 
 # Set the app as temporarily public for curl call
-ynh_app_setting_set --app=$app --key=skipped_uris --value="/"
-# Reload SSOwat config
-yunohost app ssowatconf
+ynh_script_progression --message="Configuring SSOwat..."
+# Making the app public for curl
+ynh_permission_update --permission="main" --add="visitors"
 
 ynh_backup_if_checksum_is_different --file="$final_path/config/connect.php"
 
 ynh_secure_remove --file="$final_path/config/connect.php"
 
+# Installation with curl
+ynh_script_progression --message="Finalizing installation..."
 ynh_local_curl "/ecrire/?suivant" "exec=install" "etape=chmod"
 ynh_local_curl "/ecrire/?suivant" "exec=install" "etape=2" "chmod=755" "adresse_db=localhost" "login_db=$db_name" "pass_db=$db_pwd" "server_db=mysql"
 ynh_local_curl "/ecrire/?suivant" "exec=install" "etape=3" "adresse_db=localhost" "login_db=$db_name" "pass_db=$db_pwd" "server_db=mysql" "choix_db=$db_name" "tprefix=$db_name"
@@ -182,10 +206,11 @@ email=$(yunohost user info $admin | grep mail: | cut -d' ' -f2 | tr -d '\n')
 ynh_local_curl "/ecrire/?suivant" "exec=install" "etape=3b" "adresse_db=localhost" "login_db=$db_name" "pass_db=$db_pwd" "server_db=mysql" "sel_db=$db_name" "nom=$admin" "email=$email" "login=$admin" "pass=$password" "pass_verif=$password"
 ynh_local_curl "/ecrire/?suivant" "exec=install" "etape=fin"
 
-ynh_app_setting_delete --app=$app --key=skipped_uris
+# Remove the public access
+ynh_permission_update --permission="main" --remove="visitors"
 
 #=================================================
-# MODIFY A CONFIG FILE
+# UPDATE A CONFIG FILE
 #=================================================
 
 #ynh_replace_string --match_string="'','utf8');" --replace_string="'ldap.php','utf8');" --target_file=$final_path/config/connect.php
@@ -202,13 +227,14 @@ ynh_store_file_checksum --file="$final_path/config/connect.php"
 #=================================================
 # SETUP SSOWAT
 #=================================================
-ynh_script_progression --message="Upgrading SSOwat configuration..."
+ynh_script_progression --message="Configuring permissions..."
 
 # Make app public if necessary
 if [ $is_public -eq 1 ]
 then
-	# unprotected_uris allows SSO credentials to be passed anyway
-	ynh_app_setting_set --app=$app --key=unprotected_uris --value="/"
+	# Everyone can access the app.
+	# The "main" permission is automatically created before the install script.
+	ynh_permission_update --permission="main" --add="visitors"
 fi
 
 #=================================================

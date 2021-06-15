@@ -26,7 +26,7 @@ final_path=$(ynh_app_setting_get --app=$app --key=final_path)
 #=================================================
 # STOP AND REMOVE SERVICE
 #=================================================
-ynh_script_progression --message="Stopping and removing the systemd service"
+ynh_script_progression --message="Stopping and removing the systemd service..."
 
 # Remove the dedicated systemd config
 ynh_remove_systemd_config
@@ -34,10 +34,10 @@ ynh_remove_systemd_config
 #=================================================
 # REMOVE THE MYSQL DATABASE
 #=================================================
-ynh_script_progression --message="Stopping and removing the systemd service"
+ynh_script_progression --message="Removing the MySQL database..."
 
 # Remove a database if it exists, along with the associated user
-ynh_mysql_remove_db --db_user=$db_name --db_name=$db_name
+ynh_mysql_remove_db --db_user=$db_user --db_name=$db_name
 
 #=================================================
 # REMOVE APP MAIN DIR
@@ -52,7 +52,7 @@ ynh_secure_remove --file="$final_path"
 #=================================================
 ynh_script_progression --message="Removing NGINX web server configuration..."
 
-# Remove the dedicated nginx config
+# Remove the dedicated NGINX config
 ynh_remove_nginx_config
 
 #=================================================
@@ -60,7 +60,7 @@ ynh_remove_nginx_config
 #=================================================
 ynh_script_progression --message="Removing PHP-FPM configuration..."
 
-# Remove the dedicated php-fpm config
+# Remove the dedicated PHP-FPM config
 ynh_remove_fpm_config
 
 #=================================================

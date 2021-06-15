@@ -1,6 +1,7 @@
-SOURCE_URL=https://files.spip.net/spip/archives/spip-v3.2.9.zip
-SOURCE_SUM=1a238e8674a4921db71c89ddaac35f82ff0d532f89ad2feef321ea6b9f8cc759
+SOURCE_URL=https://files.spip.net/spip/archives/spip-v3.2.11.zip
+SOURCE_SUM=6b713ec10d9ceff367ec7f76f32d9438b76919f493cae3ef3a3db0cfce570df3
 SOURCE_SUM_PRG=sha256sum
 SOURCE_FORMAT=zip
 SOURCE_IN_SUBDIR=false
 SOURCE_FILENAME=
+SOURCE_EXTRACT=true

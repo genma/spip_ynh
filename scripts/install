@@ -13,8 +13,7 @@ source /usr/share/yunohost/helpers
 # MANAGE SCRIPT FAILURE
 #=================================================
 
-ynh_clean_setup() {
-	### Remove this function if there's nothing to clean before calling the remove script.
+ynh_clean_setup () {
 	true
 }
 # Exit if an error occurs during the execution of the script
@@ -27,8 +26,8 @@ ynh_abort_if_errors
 domain=$YNH_APP_ARG_DOMAIN
 path_url=$YNH_APP_ARG_PATH
 admin=$YNH_APP_ARG_ADMIN
-password=$YNH_APP_ARG_PASSWORD
 is_public=$YNH_APP_ARG_IS_PUBLIC
+password=$YNH_APP_ARG_PASSWORD
 users_status=$YNH_APP_ARG_USERS_STATUS
 
 app=$YNH_APP_INSTANCE_NAME
@@ -57,13 +56,22 @@ ynh_app_setting_set --app=$app --key=is_public --value=$is_public
 ynh_app_setting_set --app=$app --key=users_status --value=$users_status
 
 #=================================================
+# CREATE DEDICATED USER
+#=================================================
+ynh_script_progression --message="Configuring system user..."
+
+# Create a system user
+ynh_system_user_create --username=$app --home_dir=$final_path
+
+#=================================================
 # CREATE A MYSQL DATABASE
 #=================================================
 ynh_script_progression --message="Creating a MySQL database..."
 
 db_name=$(ynh_sanitize_dbid --db_name=$app)
+db_user=$db_name
 ynh_app_setting_set --app=$app --key=db_name --value=$db_name
-ynh_mysql_setup_db --db_user=$db_name --db_name=$db_name
+ynh_mysql_setup_db --db_user=$db_user --db_name=$db_name
 db_pwd=$(ynh_app_setting_get --app=$app --key=mysqlpwd)
 
 #=================================================
@@ -75,28 +83,24 @@ ynh_app_setting_set --app=$app --key=final_path --value=$final_path
 # Download, check integrity, uncompress and patch the source from app.src
 ynh_setup_source --dest_dir="$final_path"
 
+chmod 750 "$final_path"
+chmod -R o-rwx "$final_path"
+chown -R $app:www-data "$final_path"
+
 #=================================================
 # NGINX CONFIGURATION
 #=================================================
 ynh_script_progression --message="Configuring NGINX web server..."
 
-# Create a dedicated nginx config
+# Create a dedicated NGINX config
 ynh_add_nginx_config
-
-#=================================================
-# CREATE DEDICATED USER
-#=================================================
-ynh_script_progression --message="Configuring system user..."
-
-# Create a system user
-ynh_system_user_create --username=$app
 
 #=================================================
 # PHP-FPM CONFIGURATION
 #=================================================
 ynh_script_progression --message="Configuring PHP-FPM..."
 
-# Create a dedicated php-fpm config
+# Create a dedicated PHP-FPM config
 ynh_add_fpm_config --package="$extra_php_dependencies"
 
 #=================================================
@@ -104,19 +108,18 @@ ynh_add_fpm_config --package="$extra_php_dependencies"
 #=================================================
 # SETUP APPLICATION WITH CURL
 #=================================================
+ynh_script_progression --message="Setuping application with CURL..."
 
 # Set right permissions for curl install
 mkdir -p $final_path/plugins/auto
-chown -R $app: $final_path
+chown -R $app:www-data "$final_path"
 
 # Set the app as temporarily public for curl call
-ynh_app_setting_set --app=$app --key=skipped_uris --value="/"
-# Reload SSOwat config
-yunohost app ssowatconf
+ynh_script_progression --message="Configuring SSOwat..."
+# Making the app public for curl
+ynh_permission_update --permission="main" --add="visitors"
 
-# Reload Nginx
-ynh_systemd_action --service_name=nginx --action=reload
-
+# Installation with curl
 ynh_script_progression --message="Finalizing installation..."
 ynh_local_curl "/ecrire/?suivant" "exec=install" "etape=chmod"
 ynh_local_curl "/ecrire/?suivant" "exec=install" "etape=2" "chmod=755" "adresse_db=localhost" "login_db=$db_name" "pass_db=$db_pwd" "server_db=mysql"
@@ -145,7 +148,8 @@ email=$(yunohost user info $admin | grep mail: | cut -d' ' -f2 | tr -d '\n')
 ynh_local_curl "/ecrire/?suivant" "exec=install" "etape=3b" "adresse_db=localhost" "login_db=$db_name" "pass_db=$db_pwd" "server_db=mysql" "sel_db=$db_name" "nom=$admin" "email=$email" "login=$admin" "pass=$password" "pass_verif=$password"
 ynh_local_curl "/ecrire/?suivant" "exec=install" "etape=fin"
 
-ynh_app_setting_delete --app=$app --key=skipped_uris
+# Remove the public access
+ynh_permission_update --permission="main" --remove="visitors"
 
 #=================================================
 # MODIFY A CONFIG FILE
@@ -163,18 +167,16 @@ ynh_store_file_checksum --file="$final_path/config/connect.php"
 #=================================================
 # GENERIC FINALIZATION
 #=================================================
-# ADVERTISE SERVICE IN ADMIN PANEL
-#=================================================
-
-#=================================================
 # SETUP SSOWAT
 #=================================================
-ynh_script_progression --message="Configuring SSOwat..."
+ynh_script_progression --message="Configuring permissions..."
 
 # Make app public if necessary
-if [ $is_public -eq 1 ]; then
-	# unprotected_uris allows SSO credentials to be passed anyway.
-	ynh_app_setting_set --app=$app --key=unprotected_uris --value="/"
+if [ $is_public -eq 1 ]
+then
+	# Everyone can access the app.
+	# The "main" permission is automatically created before the install script.
+	ynh_permission_update --permission="main" --add="visitors"
 fi
 
 #=================================================
