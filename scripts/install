@@ -52,7 +52,6 @@ ynh_app_setting_set --app=$app --key=domain --value=$domain
 ynh_app_setting_set --app=$app --key=path --value=$path_url
 ynh_app_setting_set --app=$app --key=admin --value=$admin
 ynh_app_setting_set --app=$app --key=password --value=$password
-ynh_app_setting_set --app=$app --key=is_public --value=$is_public
 ynh_app_setting_set --app=$app --key=users_status --value=$users_status
 
 #=================================================
@@ -122,7 +121,7 @@ ynh_permission_update --permission="main" --add="visitors"
 # Installation with curl
 ynh_script_progression --message="Finalizing installation..."
 ynh_local_curl "/ecrire/?suivant" "exec=install" "etape=chmod"
-ynh_local_curl "/ecrire/?suivant" "exec=install" "etape=2" "chmod=755" "adresse_db=localhost" "login_db=$db_name" "pass_db=$db_pwd" "server_db=mysql"
+ynh_local_curl "/ecrire/?suivant" "exec=install" "etape=2" "chmod=750" "adresse_db=localhost" "login_db=$db_name" "pass_db=$db_pwd" "server_db=mysql"
 ynh_local_curl "/ecrire/?suivant" "exec=install" "etape=3" "adresse_db=localhost" "login_db=$db_name" "pass_db=$db_pwd" "server_db=mysql" "choix_db=$db_name" "tprefix=$db_name"
 # For now spip have a problem with LDAP
 #ynh_local_curl "/ecrire/?suivant" "exec=install" "etape=ldap1"
