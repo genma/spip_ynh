@@ -59,9 +59,8 @@ ynh_abort_if_errors
 #=================================================
 ynh_script_progression --message="Ensuring downward compatibility..."
 
-is_public=$(ynh_app_setting_get --app=$app --key=is_public)
 # Remove is_public
-if [ -n "$is_public" ]; then
+if [ -n "$(ynh_app_setting_get --app=$app --key=is_public)" ]; then
 	ynh_app_setting_delete --app=$app --key=is_public
 fi
 
