@@ -55,6 +55,13 @@ ynh_app_setting_set --app=$app --key=password --value=$password
 ynh_app_setting_set --app=$app --key=users_status --value=$users_status
 
 #=================================================
+# INSTALL DEPENDENCIES
+#=================================================
+ynh_script_progression --message="Installing dependencies..."
+
+ynh_install_app_dependencies $pkg_dependencies
+
+#=================================================
 # CREATE DEDICATED USER
 #=================================================
 ynh_script_progression --message="Configuring system user..."
@@ -100,7 +107,7 @@ ynh_add_nginx_config
 ynh_script_progression --message="Configuring PHP-FPM..."
 
 # Create a dedicated PHP-FPM config
-ynh_add_fpm_config --package="$extra_php_dependencies"
+ynh_add_fpm_config
 
 #=================================================
 # SPECIFIC SETUP
@@ -115,8 +122,6 @@ chown -R $app:www-data "$final_path"
 
 # Set the app as temporarily public for curl call
 ynh_script_progression --message="Configuring SSOwat..."
-# Making the app public for curl
-ynh_permission_update --permission="main" --add="visitors"
 
 # Installation with curl
 ynh_script_progression --message="Finalizing installation..."
@@ -146,9 +151,6 @@ ynh_local_curl "/ecrire/?exec=install" "etape=3b"
 email=$(yunohost user info $admin | grep mail: | cut -d' ' -f2 | tr -d '\n')
 ynh_local_curl "/ecrire/?suivant" "exec=install" "etape=3b" "adresse_db=localhost" "login_db=$db_name" "pass_db=$db_pwd" "server_db=mysql" "sel_db=$db_name" "nom=$admin" "email=$email" "login=$admin" "pass=$password" "pass_verif=$password"
 ynh_local_curl "/ecrire/?suivant" "exec=install" "etape=fin"
-
-# Remove the public access
-ynh_permission_update --permission="main" --remove="visitors"
 
 #=================================================
 # MODIFY A CONFIG FILE

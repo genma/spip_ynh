@@ -6,7 +6,7 @@
         "en": "CMS with a focus on collaborative edition and multilingualism",
         "fr": "CMS conçu pour l'édition collaborative et le multilinguisme"
     },
-    "version": "4.0.0~ynh2",
+    "version": "4.0.1~ynh1",
     "url": "http://www.spip.net/",
     "license": "GPL-3.0-or-later",
     "maintainer": {
@@ -14,7 +14,7 @@
         "email": "cyp@rouquin.me"
     },
     "requirements": {
-        "yunohost": ">= 4.2.7"
+        "yunohost": ">= 4.3.2"
     },
     "multi_instance": true,
     "services": [
@@ -25,8 +25,7 @@
         "install" : [
             {
                 "name": "domain",
-                "type": "domain",
-                "example": "example.com"
+                "type": "domain"
             },
             {
                 "name": "path",
@@ -36,13 +35,11 @@
             },
             {
                 "name": "admin",
-                "type": "user",
-                "example": "johndoe"
+                "type": "user"
             },
             {
                 "name": "password",
-                "type": "password",
-                "example": "Choose a password"
+                "type": "password"
             },
             {
                 "name": "is_public",
