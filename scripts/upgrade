@@ -173,15 +173,6 @@ chown -R $app:www-data "$final_path"
 # Set the app as temporarily public for curl call
 ynh_script_progression --message="Configuring SSOwat..."
 
-
-if ! ynh_permission_has_user --permission=main --user="visitors"; then
-	is_public=0
-	# Making the app public for curl
-	ynh_permission_update --permission="main" --add="visitors"
-else
-	is_public=1
-fi
-
 ynh_backup_if_checksum_is_different --file="$final_path/config/connect.php"
 
 mv $final_path/config/connect.php $final_path/config/connect.php.ynh_bkp
@@ -236,17 +227,6 @@ ynh_store_file_checksum --file="$final_path/config/connect.php"
 
 #=================================================
 # GENERIC FINALIZATION
-#=================================================
-# SETUP SSOWAT
-#=================================================
-ynh_script_progression --message="Configuring permissions..."
-
-# Make app private if necessary
-if [ $is_public -eq 0 ]
-then
-	ynh_permission_update --permission="main" --remove="visitors"
-fi
-
 #=================================================
 # RELOAD NGINX
 #=================================================
