@@ -1,77 +1,65 @@
 # SPIP pour YunoHost
 
-[![Integration level](https://dash.yunohost.org/integration/spip.svg)](https://dash.yunohost.org/appci/app/spip) ![](https://ci-apps.yunohost.org/ci/badges/spip.status.svg) ![](https://ci-apps.yunohost.org/ci/badges/spip.maintain.svg)  
-[![Install SPIP with YunoHost](https://install-app.yunohost.org/install-with-yunohost.png)](https://install-app.yunohost.org/?app=spip)
+[![Niveau d'intégration](https://dash.yunohost.org/integration/spip.svg)](https://dash.yunohost.org/appci/app/spip) ![](https://ci-apps.yunohost.org/ci/badges/spip.status.svg) ![](https://ci-apps.yunohost.org/ci/badges/spip.maintain.svg)  
+[![Installer SPIP avec YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=spip)
 
-*[Read this readme in english.](./README.md)* 
+*[Read this readme in english.](./README.md)*
+*[Lire ce readme en français.](./README_fr.md)*
 
-> *Ce package vous permet d'installer SPIP rapidement et simplement sur un serveur Yunohost.  
+> *Ce package vous permet d'installer SPIP rapidement et simplement sur un serveur YunoHost.
 Si vous n'avez pas YunoHost, regardez [ici](https://yunohost.org/#/install) pour savoir comment l'installer et en profiter.*
 
 ## Vue d'ensemble
 
-SPIP est un système de publication pour l’Internet qui s’attache particulièrement au fonctionnement collectif, au multilinguisme et à la facilité d’emploi. C’est un logiciel libre, distribué sous la licence GNU/GPL. Il peut ainsi être utilisé pour tout site Internet, qu’il soit associatif ou institutionnel, personnel ou marchand.
+CMS conçu pour l'édition collaborative et le multilinguisme
 
-Source: [spip.net](http://www.spip.net/fr_rubrique91.html)
+**Version incluse :** 4.0.1~ynh1
 
-**Version incluse:** 4.0.1
+**Démo :** https://demo.spip.net/
 
-## Captures d'écran
-
-![](https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Logo_SPIP.png/220px-Logo_SPIP.png)
-
-## Démo
-
-* [Démo officielle](https://demo.spip.net/)
+## Avertissements / informations importantes
 
 ## Configuration
 
-Comment configurer cette application: via le panneau d'administration.
+How to configure this app: by an admin panel.
 
-## Documentation
+#### Multi-users support
 
- * Documentation officielle: https://www.spip.net
+ * Are LDAP and HTTP auth supported? **Yes**
+ * Can the app be used by multiple users? **Yes**
 
-## Caractéristiques spécifiques YunoHost
+## Migrate from SPIP2
 
-#### Support multi-utilisateurs
+**This is not considered as stable yet, please do it with care and only for testing!**
 
- * L'authentification LDAP et HTTP est-elle prise en charge? **Oui**
- * L'application peut-elle être utilisée par plusieurs utilisateurs? **Oui**
-
-#### Supported architectures
-
-* x86-64 - [![Build Status](https://ci-apps.yunohost.org/ci/logs/spip%20%28Community%29.svg)](https://ci-apps.yunohost.org/ci/apps/spip/)
-* ARMv8-A - [![Build Status](https://ci-apps-arm.yunohost.org/ci/logs/spip%20%28Community%29.svg)](https://ci-apps-arm.yunohost.org/ci/apps/spip/)
-
-## Migration depuis SPIP2
-
-**Ceci n'est pas encore considéré comme stable, veuillez le faire avec soin et uniquement pour test!**
-
-Ce paquet gère la migration de SPIP2 vers SPIP. Pour cela, votre application SPIP2 doit être **à jour** dans YunoHost. Pour s'en assurer :
+This package handle the migration from SPIP2 to SPIP. For that, your
+SPIP2 application must be **up-to-date** in YunoHost. To ensure that, execute:
 
 ```bash
 sudo yunohost app upgrade -u https://github.com/YunoHost-Apps/spip2_ynh spip2 --debug
 ```
 
-Vous devrez ensuite mettre à jour votre application SPIP2 avec ce dépôt.
-Cela ne peut se faire qu'à partir de l'interface en ligne de commande - par exemple via SSH. Une fois connecté, il vous suffit d'exécuter ce qui suit :
+You will then have to upgrade your SPIP2 application with this repository.
+This can only be done from the command-line interface - e.g. through SSH. Once you're connected, you simply have to execute the following:
 
 ```bash
 sudo yunohost app upgrade -u https://github.com/YunoHost-Apps/spip_ynh spip2 --debug
 ```
 
-L'option `--debug` vous permettra de voir la sortie complète. Si vous rencontrez un problème, veuillez ouvrir une issue.
+The `--debug` option will let you see the full output. If you encounter any issue, please paste it.
 
-Notez qu'une tâche cron sera exécutée après la fin de cette commande. Vous devez attendre cela avant de faire toute autre opération d'application ! Vous devriez voir que SPIP est installé après cela.
+Note that a cron job will be executed at some time after the end of this
+command. You must wait that before doing any other application operations!
+You should see that SPIP is installed after that.
 
-## Links
+## Documentations et ressources
 
- * Signaler un bug: https://github.com/YunoHost-Apps/spip_ynh/issues
- * Site de l'application: https://www.spip.net
- * Site web YunoHost: https://yunohost.org/
-
----
+* Site officiel de l'app : http://www.spip.net/
+* Documentation officielle utilisateur : https://www.spip.net/en_rubrique57.html
+* Documentation officielle de l'admin : https://www.spip.net/en_rubrique209.html
+* Dépôt de code officiel de l'app : https://git.spip.net/spip/spip
+* Documentation YunoHost pour cette app : https://yunohost.org/app_spip
+* Signaler un bug : https://github.com/YunoHost-Apps/spip_ynh/issues
 
 ## Informations pour les développeurs
 
@@ -83,3 +71,5 @@ sudo yunohost app install https://github.com/YunoHost-Apps/spip_ynh/tree/testing
 ou
 sudo yunohost app upgrade spip -u https://github.com/YunoHost-Apps/spip_ynh/tree/testing --debug
 ```
+
+**Plus d'infos sur le packaging d'applications :** https://yunohost.org/packaging_apps
