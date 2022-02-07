@@ -17,6 +17,10 @@ CMS conçu pour l'édition collaborative et le multilinguisme
 
 **Démo :** https://demo.spip.net/
 
+## Captures d'écran
+
+![](./doc/screenshots/220px-Logo_SPIP.png)
+
 ## Avertissements / informations importantes
 
 ## Configuration
