@@ -25,36 +25,33 @@ CMS conçu pour l'édition collaborative et le multilinguisme
 
 ## Configuration
 
-How to configure this app: by an admin panel.
+Comment configurer cette application: via le panneau d'administration.
 
-#### Multi-users support
+#### Support multi-utilisateurs
 
- * Are LDAP and HTTP auth supported? **Yes**
- * Can the app be used by multiple users? **Yes**
+ * L'authentification LDAP et HTTP est-elle prise en charge? **Oui**
+ * L'application peut-elle être utilisée par plusieurs utilisateurs? **Oui**
 
-## Migrate from SPIP2
+## Migration depuis SPIP2
 
-**This is not considered as stable yet, please do it with care and only for testing!**
+**Ceci n'est pas encore considéré comme stable, veuillez le faire avec soin et uniquement pour test!**
 
-This package handle the migration from SPIP2 to SPIP. For that, your
-SPIP2 application must be **up-to-date** in YunoHost. To ensure that, execute:
+Ce paquet gère la migration de SPIP2 vers SPIP. Pour cela, votre application SPIP2 doit être **à jour** dans YunoHost. Pour s'en assurer :
 
 ```bash
 sudo yunohost app upgrade -u https://github.com/YunoHost-Apps/spip2_ynh spip2 --debug
 ```
 
-You will then have to upgrade your SPIP2 application with this repository.
-This can only be done from the command-line interface - e.g. through SSH. Once you're connected, you simply have to execute the following:
+Vous devrez ensuite mettre à jour votre application SPIP2 avec ce dépôt.
+Cela ne peut se faire qu'à partir de l'interface en ligne de commande - par exemple via SSH. Une fois connecté, il vous suffit d'exécuter ce qui suit :
 
 ```bash
 sudo yunohost app upgrade -u https://github.com/YunoHost-Apps/spip_ynh spip2 --debug
 ```
 
-The `--debug` option will let you see the full output. If you encounter any issue, please paste it.
+L'option `--debug` vous permettra de voir la sortie complète. Si vous rencontrez un problème, veuillez ouvrir une issue.
 
-Note that a cron job will be executed at some time after the end of this
-command. You must wait that before doing any other application operations!
-You should see that SPIP is installed after that.
+Notez qu'une tâche cron sera exécutée après la fin de cette commande. Vous devez attendre cela avant de faire toute autre opération d'application ! Vous devriez voir que SPIP est installé après cela.
 
 ## Documentations et ressources
 
