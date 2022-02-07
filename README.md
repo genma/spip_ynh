@@ -21,6 +21,10 @@ CMS with a focus on collaborative edition and multilingualism
 
 **Demo:** https://demo.spip.net/
 
+## Screenshots
+
+![](./doc/screenshots/220px-Logo_SPIP.png)
+
 ## Disclaimers / important information
 
 ## Configuration
