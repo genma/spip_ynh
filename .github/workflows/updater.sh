@@ -27,6 +27,11 @@ if [[ ${version:0:1} == "v" || ${version:0:1} == "V" ]]; then
     version=${version:1}
 fi
 
+if [[ $version == *"-alpha" || $version == *"-beta" ]]; then
+    echo "::warning ::This is not a release version"
+    exit 0
+fi
+
 # Setting up the environment variables
 echo "Current version: $current_version"
 echo "Latest release from upstream: $version"
