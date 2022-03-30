@@ -17,7 +17,7 @@
 current_version=$(cat manifest.json | jq -j '.version|split("~")[0]')
 repo=$(cat manifest.json | jq -j '.upstream.code|split("https://git.spip.net/")[1]')
 # Some jq magic is needed, because the latest upstream release is not always the latest version (e.g. security patches for older versions)
-version=$(curl --silent "https://git.spip.net/api/v1/repos/spip/spip/tags" | jq -r '.[] | .name' | sort -V | tail -1)
+version=$(curl --silent "https://git.spip.net/api/v1/repos/spip/spip/tags" | jq -r '.[] | .name' | grep -v "alpha" | grep -v "beta" | grep -v "rc" | sort -V | tail -1)
 assets=("https://files.spip.net/spip/archives/spip-$version.zip")
 
 # Later down the script, we assume the version has only digits and dots
@@ -25,11 +25,6 @@ assets=("https://files.spip.net/spip/archives/spip-$version.zip")
 # You may need more tweaks here if the upstream repository has different naming conventions. 
 if [[ ${version:0:1} == "v" || ${version:0:1} == "V" ]]; then
     version=${version:1}
-fi
-
-if [[ $version == *"-alpha" || $version == *"-beta" ]]; then
-    echo "::warning ::This is not a release version"
-    exit 0
 fi
 
 # Setting up the environment variables
