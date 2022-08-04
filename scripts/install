@@ -25,8 +25,8 @@ ynh_abort_if_errors
 
 domain=$YNH_APP_ARG_DOMAIN
 path_url=$YNH_APP_ARG_PATH
-admin=$YNH_APP_ARG_ADMIN
 is_public=$YNH_APP_ARG_IS_PUBLIC
+admin=$YNH_APP_ARG_ADMIN
 password=$YNH_APP_ARG_PASSWORD
 users_status=$YNH_APP_ARG_USERS_STATUS
 
@@ -55,6 +55,8 @@ ynh_app_setting_set --app=$app --key=password --value=$password
 ynh_app_setting_set --app=$app --key=users_status --value=$users_status
 
 #=================================================
+# STANDARD MODIFICATIONS
+#=================================================
 # INSTALL DEPENDENCIES
 #=================================================
 ynh_script_progression --message="Installing dependencies..."
@@ -67,7 +69,7 @@ ynh_install_app_dependencies $pkg_dependencies
 ynh_script_progression --message="Configuring system user..."
 
 # Create a system user
-ynh_system_user_create --username=$app --home_dir=$final_path
+ynh_system_user_create --username=$app --home_dir="$final_path"
 
 #=================================================
 # CREATE A MYSQL DATABASE
@@ -94,20 +96,20 @@ chmod -R o-rwx "$final_path"
 chown -R $app:www-data "$final_path"
 
 #=================================================
-# NGINX CONFIGURATION
-#=================================================
-ynh_script_progression --message="Configuring NGINX web server..."
-
-# Create a dedicated NGINX config
-ynh_add_nginx_config
-
-#=================================================
 # PHP-FPM CONFIGURATION
 #=================================================
 ynh_script_progression --message="Configuring PHP-FPM..."
 
 # Create a dedicated PHP-FPM config
 ynh_add_fpm_config
+
+#=================================================
+# NGINX CONFIGURATION
+#=================================================
+ynh_script_progression --message="Configuring NGINX web server..."
+
+# Create a dedicated NGINX config
+ynh_add_nginx_config
 
 #=================================================
 # SPECIFIC SETUP
@@ -153,8 +155,9 @@ ynh_local_curl "/ecrire/?suivant" "exec=install" "etape=3b" "adresse_db=localhos
 ynh_local_curl "/ecrire/?suivant" "exec=install" "etape=fin"
 
 #=================================================
-# MODIFY A CONFIG FILE
+# ADD A CONFIGURATION
 #=================================================
+ynh_script_progression --message="Adding a configuration file..."
 
 #ynh_replace_string "'','utf8');" "'ldap.php','utf8');" $final_path/config/connect.php
 cp ../conf/mes_options.php $final_path/config/mes_options.php

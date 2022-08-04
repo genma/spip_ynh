@@ -42,17 +42,17 @@
                 "default": "/spip"
             },
             {
+                "name": "is_public",
+                "type": "boolean",
+                "default": true
+            },
+            {
                 "name": "admin",
                 "type": "user"
             },
             {
                 "name": "password",
                 "type": "password"
-            },
-            {
-                "name": "is_public",
-                "type": "boolean",
-                "default": true
             },
             {
                 "name": "users_status",

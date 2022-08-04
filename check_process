@@ -2,10 +2,10 @@
 	; Manifest
 		domain="domain.tld"
 		path="/path"
-		admin="john"
-		users_status="Editor"
 		is_public=1
-		password="thisisapassword"
+		admin="john"
+		password="1Strong-Password"
+		users_status="Editor"
 	; Checks
 		pkg_linter=1
 		setup_sub_dir=1
