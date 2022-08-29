@@ -118,7 +118,7 @@ fi
 ynh_script_progression --message="Making sure dedicated system user exists..."
 
 # Create a dedicated user (if not existing)
-ynh_system_user_create --username=$app --home_dir=$final_path
+ynh_system_user_create --username=$app --home_dir="$final_path"
 
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
@@ -137,14 +137,6 @@ chmod -R o-rwx "$final_path"
 chown -R $app:www-data "$final_path"
 
 #=================================================
-# NGINX CONFIGURATION
-#=================================================
-ynh_script_progression --message="Upgrading NGINX web server configuration..."
-
-# Create a dedicated NGINX config
-ynh_add_nginx_config
-
-#=================================================
 # UPGRADE DEPENDENCIES
 #=================================================
 ynh_script_progression --message="Upgrading dependencies..."
@@ -158,6 +150,14 @@ ynh_script_progression --message="Upgrading PHP-FPM configuration..."
 
 # Create a dedicated PHP-FPM config
 ynh_add_fpm_config
+
+#=================================================
+# NGINX CONFIGURATION
+#=================================================
+ynh_script_progression --message="Upgrading NGINX web server configuration..."
+
+# Create a dedicated NGINX config
+ynh_add_nginx_config
 
 #=================================================
 # SPECIFIC UPGRADE
@@ -209,13 +209,10 @@ ynh_local_curl "/ecrire/?suivant" "exec=install" "etape=fin"
 #=================================================
 # UPDATE A CONFIG FILE
 #=================================================
+ynh_script_progression --message="Updating a configuration file..."
 
 #ynh_replace_string --match_string="'','utf8');" --replace_string="'ldap.php','utf8');" --target_file=$final_path/config/connect.php
 cp ../conf/mes_options.php $final_path/config/mes_options.php
-
-#=================================================
-# STORE THE CONFIG FILE CHECKSUM
-#=================================================
 
 if [ ! -f $final_path/config/connect.php ]; then
 	mv $final_path/config/connect.php.ynh_bkp $final_path/config/connect.php
