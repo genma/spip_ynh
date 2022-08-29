@@ -19,6 +19,7 @@ CMS with a focus on collaborative edition and multilingualism
 
 **Shipped version:** 4.1.5~ynh1
 
+
 **Demo:** https://demo.spip.net/
 
 ## Screenshots
