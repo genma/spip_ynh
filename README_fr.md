@@ -5,26 +5,25 @@ It shall NOT be edited by hand.
 
 # SPIP pour YunoHost
 
-[![Niveau d'intégration](https://dash.yunohost.org/integration/spip.svg)](https://dash.yunohost.org/appci/app/spip) ![Statut du fonctionnement](https://ci-apps.yunohost.org/ci/badges/spip.status.svg) ![Statut de maintenance](https://ci-apps.yunohost.org/ci/badges/spip.maintain.svg)  
+[![Niveau d’intégration](https://dash.yunohost.org/integration/spip.svg)](https://dash.yunohost.org/appci/app/spip) ![Statut du fonctionnement](https://ci-apps.yunohost.org/ci/badges/spip.status.svg) ![Statut de maintenance](https://ci-apps.yunohost.org/ci/badges/spip.maintain.svg)
 [![Installer SPIP avec YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=spip)
 
 *[Read this readme in english.](./README.md)*
 
-> *Ce package vous permet d'installer SPIP rapidement et simplement sur un serveur YunoHost.
-Si vous n'avez pas YunoHost, regardez [ici](https://yunohost.org/#/install) pour savoir comment l'installer et en profiter.*
+> *Ce package vous permet d’installer SPIP rapidement et simplement sur un serveur YunoHost.
+Si vous n’avez pas YunoHost, regardez [ici](https://yunohost.org/#/install) pour savoir comment l’installer et en profiter.*
 
-## Vue d'ensemble
+## Vue d’ensemble
 
 CMS conçu pour l'édition collaborative et le multilinguisme
 
-**Version incluse :** 4.1.5~ynh1
-
+**Version incluse :** 4.1.7~ynh1
 
 **Démo :** https://demo.spip.net/
 
-## Captures d'écran
+## Captures d’écran
 
-![Capture d'écran de SPIP](./doc/screenshots/220px-Logo_SPIP.png)
+![Capture d’écran de SPIP](./doc/screenshots/220px-Logo_SPIP.png)
 
 ## Avertissements / informations importantes
 
@@ -60,10 +59,10 @@ Notez qu'une tâche cron sera exécutée après la fin de cette commande. Vous d
 
 ## Documentations et ressources
 
-* Site officiel de l'app : <http://www.spip.net/>
+* Site officiel de l’app : <http://www.spip.net/>
 * Documentation officielle utilisateur : <https://www.spip.net/en_rubrique57.html>
-* Documentation officielle de l'admin : <https://www.spip.net/en_rubrique209.html>
-* Dépôt de code officiel de l'app : <https://git.spip.net/spip/spip>
+* Documentation officielle de l’admin : <https://www.spip.net/en_rubrique209.html>
+* Dépôt de code officiel de l’app : <https://git.spip.net/spip/spip>
 * Documentation YunoHost pour cette app : <https://yunohost.org/app_spip>
 * Signaler un bug : <https://github.com/YunoHost-Apps/spip_ynh/issues>
 
@@ -79,4 +78,4 @@ ou
 sudo yunohost app upgrade spip -u https://github.com/YunoHost-Apps/spip_ynh/tree/testing --debug
 ```
 
-**Plus d'infos sur le packaging d'applications :** <https://yunohost.org/packaging_apps>
+**Plus d’infos sur le packaging d’applications :** <https://yunohost.org/packaging_apps>
