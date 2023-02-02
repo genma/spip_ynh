@@ -17,8 +17,7 @@ Si vous n'avez pas YunoHost, regardez [ici](https://yunohost.org/#/install) pour
 
 CMS conçu pour l'édition collaborative et le multilinguisme
 
-**Version incluse :** 4.1.5~ynh1
-
+**Version incluse :** 4.1.7~ynh1
 
 **Démo :** https://demo.spip.net/
 
