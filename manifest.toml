@@ -5,7 +5,7 @@ name = "SPIP"
 description.en = "CMS with a focus on collaborative edition and multilingualism"
 description.fr = "CMS conçu pour l'édition collaborative et le multilinguisme"
 
-version = "4.2.2~ynh1"
+version = "4.2.2~ynh2"
 
 maintainers = ["cyp"]
 
