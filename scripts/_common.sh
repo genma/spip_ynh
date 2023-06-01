@@ -4,9 +4,9 @@
 # COMMON VARIABLES
 #=================================================
 
-YNH_PHP_VERSION="7.4"
+#REMOVEME? YNH_PHP_VERSION="7.4"
 
-pkg_dependencies="libsodium23 php${YNH_PHP_VERSION}-curl php${YNH_PHP_VERSION}-xml php${YNH_PHP_VERSION}-gd php${YNH_PHP_VERSION}-mysqli php${YNH_PHP_VERSION}-zip"
+#REMOVEME? pkg_dependencies="libsodium23 php${YNH_PHP_VERSION}-curl php${YNH_PHP_VERSION}-xml php${YNH_PHP_VERSION}-gd php${YNH_PHP_VERSION}-mysqli php${YNH_PHP_VERSION}-zip"
 
 #=================================================
 # EXPERIMENTAL HELPERS
@@ -35,7 +35,7 @@ ynh_send_readme_to_admin() {
 	type="${type:-install}"
 
 	# Get the value of admin_mail_html
-	admin_mail_html=$(ynh_app_setting_get $app admin_mail_html)
+#REMOVEME? 	admin_mail_html=$(ynh_app_setting_get $app admin_mail_html)
 	admin_mail_html="${admin_mail_html:-0}"
 
 	# Retrieve the email of users
@@ -173,7 +173,7 @@ __PRE_TAG1__$(yunohost tools diagnosis | grep -B 100 "services:" | sed '/service
 # If you don't have a $pkg_dependencies variable, the helper can't know what the app dependencies are.
 #
 # The app settings.yml will be modified as follows:
-# - finalpath will be changed according to the new name (but only if the existing $final_path contains the old app name)
+# - finalpath will be changed according to the new name (but only if the existing $install_dir contains the old app name)
 # - The checksums of php-fpm and nginx config files will be updated too.
 # - If there is a $db_name value, it will be changed.
 # - And, of course, the ID will be changed to the new name too.
@@ -196,7 +196,7 @@ ynh_handle_app_migration ()  {
   # LOAD SETTINGS
   #=================================================
 
-  old_app=$YNH_APP_INSTANCE_NAME
+#REMOVEME?   old_app=$YNH_APP_INSTANCE_NAME
   local old_app_id=$YNH_APP_ID
   local old_app_number=$YNH_APP_INSTANCE_NUMBER
 
@@ -281,7 +281,7 @@ ynh_handle_app_migration ()  {
     # https://github.com/YunoHost/yunohost/blob/c6b5284be8da39cf2da4e1036a730eb5e0515096/src/yunohost/app.py#L1316-L1321
 
     # Change the label if it's simply the name of the app
-    old_label=$(ynh_app_setting_get $new_app label)
+#REMOVEME?     old_label=$(ynh_app_setting_get $new_app label)
     if [ "${old_label,,}" == "$old_app_id" ]
     then
         # Build the new label from the id of the app. With the first character as upper case
@@ -312,15 +312,15 @@ ynh_handle_app_migration ()  {
     # Replace php5-fpm checksums
     ynh_replace_string "\(^checksum__etc_php5.*[-_]\)$old_app" "\1$new_app/" "$settings_dir/$new_app/settings.yml"
 
-    # Replace final_path
-    ynh_replace_string "\(^final_path: .*\)$old_app" "\1$new_app" "$settings_dir/$new_app/settings.yml"
+    # Replace install_dir
+    ynh_replace_string "\(^install_dir: .*\)$old_app" "\1$new_app" "$settings_dir/$new_app/settings.yml"
 
     #=================================================
     # MOVE THE DATABASE
     #=================================================
 
-    db_pwd=$(ynh_app_setting_get $old_app mysqlpwd)
-    db_name=$(ynh_app_setting_get $old_app db_name)
+#REMOVEME?     db_pwd=$(ynh_app_setting_get $old_app mysqlpwd)
+#REMOVEME?     db_name=$(ynh_app_setting_get $old_app db_name)
 
     # Check if a database exists before trying to move it
     local mysql_root_password=$(cat $MYSQL_ROOT_PWD_FILE)
@@ -335,18 +335,18 @@ ynh_handle_app_migration ()  {
         ynh_mysql_dump_db "$db_name" > "$sql_dump"
 
         # Create a new database
-        ynh_mysql_setup_db $new_db_name $new_db_name $db_pwd
+#REMOVEME?         ynh_mysql_setup_db $new_db_name $new_db_name $db_pwd
         # Then restore the old one into the new one
         ynh_mysql_connect_as $new_db_name $db_pwd $new_db_name < "$sql_dump"
 
         # Remove the old database
-        ynh_mysql_remove_db $db_name $db_name
+#REMOVEME?         ynh_mysql_remove_db $db_name $db_name
         # And the dump
         ynh_secure_remove "$sql_dump"
 
         # Update the value of $db_name
         db_name=$new_db_name
-        ynh_app_setting_set $new_app db_name $db_name
+#REMOVEME?         ynh_app_setting_set $new_app db_name $db_name
     fi
 
     #=================================================
@@ -357,7 +357,7 @@ ynh_handle_app_migration ()  {
     if ynh_system_user_exists "$old_app"
     then
       echo "Create a new user $new_app to replace $old_app" >&2
-      ynh_system_user_create $new_app
+#REMOVEME?       ynh_system_user_create $new_app
     fi
 
     #=================================================
@@ -376,10 +376,10 @@ ynh_handle_app_migration ()  {
       then
         # Install a new fake package
         app=$new_app
-        ynh_install_app_dependencies $pkg_dependencies
+#REMOVEME?         ynh_install_app_dependencies $pkg_dependencies
         # Then remove the old one
         app=$old_app
-        ynh_remove_app_dependencies
+#REMOVEME?         ynh_remove_app_dependencies
       fi
     fi
 
