@@ -49,12 +49,7 @@ chown -R $app:www-data "$install_dir"
 ynh_script_progression --message="Upgrading PHP-FPM configuration..."
 
 # Create a dedicated PHP-FPM config
-ynh_add_fpm_config
-
-#=================================================
-# NGINX CONFIGURATION
-#=================================================
-ynh_script_progression --message="Upgrading NGINX web server configuration..."
+ynh_add_fpm_config --usage=low --footprint=low
 
 # Create a dedicated NGINX config
 ynh_add_nginx_config
@@ -82,6 +77,7 @@ ynh_script_progression --message="Finalizing installation..."
 ynh_local_curl "/ecrire/?suivant" "exec=install" "etape=chmod"
 ynh_local_curl "/ecrire/?suivant" "exec=install" "etape=2" "chmod=750" "adresse_db=localhost" "login_db=$db_name" "pass_db=$db_pwd" "server_db=mysql"
 ynh_local_curl "/ecrire/?suivant" "exec=install" "etape=3" "adresse_db=localhost" "login_db=$db_name" "pass_db=$db_pwd" "server_db=mysql" "choix_db=$db_name" "tprefix=$db_name"
+
 # For now spip have a problem with LDAP
 #ynh_local_curl "/ecrire/?suivant" "exec=install" "etape=ldap1"
 #ynh_local_curl "/ecrire/?suivant" "exec=install" "etape=ldap2" "adresse_ldap=localhost" "port_ldap=389" "tls_ldap=no" "protocole_ldap=3"
@@ -114,41 +110,16 @@ ynh_script_progression --message="Updating a configuration file..."
 #ynh_replace_string --match_string="'','utf8');" --replace_string="'ldap.php','utf8');" --target_file=$install_dir/config/connect.php
 cp ../conf/mes_options.php $install_dir/config/mes_options.php
 
-# Add security fix https://www.spip.net/en_article4201.html
+# Add security fix https://www.spip.net/en_article4201.html to be removed after version 4.2.2
 cp ../conf/ecran_securite.php $install_dir/config/ecran_securite.php
 
 if [ ! -f $install_dir/config/connect.php ]; then
 	mv $install_dir/config/connect.php.ynh_bkp $install_dir/config/connect.php
 else
-#REMOVEME? 	ynh_secure_remove --file="$install_dir/config/connect.php.ynh_bkp"
+	ynh_secure_remove --file="$install_dir/config/connect.php.ynh_bkp"
 fi
 
 ynh_store_file_checksum --file="$install_dir/config/connect.php"
-
-#=================================================
-# SEND INFORMATION
-#=================================================
-
-echo "To finish the upgrade, you may have to update the database by clicking on the button (if asked) at this location: https://$domain$path/ecrire/" > mail_to_send
-
-ynh_send_readme_to_admin --app_message="mail_to_send" --type="upgrade"
-
-if [ $migration_process -eq 1 ]
-then
-    ynh_script_progression --message="Spip2 has been successfully migrated to Spip! \
-A last scheduled operation will run in a couple of minutes to finish the \
-migration in YunoHost side. Do not proceed any application operation while \
-you don't see Spip as installed."
-
-    # Execute a post migration script after the end of this upgrade.
-    # Mainly for some cleaning
-    script_post_migration=spip2_post_migration.sh
-    cp ../conf/$script_post_migration /tmp
-    ynh_replace_string --match_string="__OLD_APP__" --replace_string="$old_app" --target_file=/tmp/$script_post_migration
-    ynh_replace_string --match_string="__NEW_APP__" --replace_string="$app" --target_file=/tmp/$script_post_migration
-    chmod +x /tmp/$script_post_migration
-    (cd /tmp; echo "/tmp/$script_post_migration > /tmp/$script_post_migration.log 2>&1" | at now + 2 minutes)
-fi
 
 #=================================================
 # END OF SCRIPT

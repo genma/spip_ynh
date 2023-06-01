@@ -36,7 +36,7 @@ ynh_add_nginx_config
 #=================================================
 # SETUP APPLICATION WITH CURL
 #=================================================
-ynh_script_progression --message="Setuping application with CURL..."
+ynh_script_progression --message="Setuping application with cURL..."
 
 # Set right permissions for curl install
 mkdir -p $install_dir/plugins/auto
@@ -45,11 +45,12 @@ chown -R $app:www-data "$install_dir"
 # Set the app as temporarily public for curl call
 ynh_script_progression --message="Configuring SSOwat..."
 
-# Installation with curl
+# Installation with cURL
 ynh_script_progression --message="Finalizing installation..."
 ynh_local_curl "/ecrire/?suivant" "exec=install" "etape=chmod"
 ynh_local_curl "/ecrire/?suivant" "exec=install" "etape=2" "chmod=750" "adresse_db=localhost" "login_db=$db_name" "pass_db=$db_pwd" "server_db=mysql"
 ynh_local_curl "/ecrire/?suivant" "exec=install" "etape=3" "adresse_db=localhost" "login_db=$db_name" "pass_db=$db_pwd" "server_db=mysql" "choix_db=$db_name" "tprefix=$db_name"
+
 # For now spip have a problem with LDAP
 #ynh_local_curl "/ecrire/?suivant" "exec=install" "etape=ldap1"
 #ynh_local_curl "/ecrire/?suivant" "exec=install" "etape=ldap2" "adresse_ldap=localhost" "port_ldap=389" "tls_ldap=no" "protocole_ldap=3"
@@ -82,7 +83,7 @@ ynh_script_progression --message="Adding a configuration file..."
 #ynh_replace_string "'','utf8');" "'ldap.php','utf8');" $install_dir/config/connect.php
 cp ../conf/mes_options.php $install_dir/config/mes_options.php
 
-# Add security fix https://www.spip.net/en_article4201.html
+# Add security fix https://www.spip.net/en_article4201.html to be removed after version 4.2.2
 cp ../conf/ecran_securite.php $install_dir/config/ecran_securite.php
 
 #=================================================
