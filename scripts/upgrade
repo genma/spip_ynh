@@ -10,47 +10,10 @@ source _common.sh
 source /usr/share/yunohost/helpers
 
 #=================================================
-# LOAD SETTINGS
-#=================================================
-#REMOVEME? ynh_script_progression --message="Loading installation settings..."
-
-#REMOVEME? app=$YNH_APP_INSTANCE_NAME
-
-#REMOVEME? domain=$(ynh_app_setting_get --app=$app --key=domain)
-#REMOVEME? path=$(ynh_app_setting_get --app=$app --key=path)
-#REMOVEME? admin=$(ynh_app_setting_get --app=$app --key=admin)
-#REMOVEME? password=$(ynh_app_setting_get --app=$app --key=password)
-#REMOVEME? #REMOVEME? install_dir=$(ynh_app_setting_get --app=$app --key=install_dir)
-#REMOVEME? users_status=$(ynh_app_setting_get --app=$app --key=users_status)
-#REMOVEME? db_name=$(ynh_app_setting_get --app=$app --key=db_name)
-#REMOVEME? db_user=$db_name
-#REMOVEME? db_pwd=$(ynh_app_setting_get --app=$app --key=mysqlpwd)
-
-#=================================================
 # CHECK VERSION
 #=================================================
-ynh_script_progression --message="Checking version..."
 
 upgrade_type=$(ynh_check_app_version_changed)
-
-#=================================================
-# BACKUP BEFORE UPGRADE THEN ACTIVE TRAP
-#=================================================
-#REMOVEME? ynh_script_progression --message="Backing up the app before upgrading (may take a while)..."
-
-# Backup the current version of the app
-#REMOVEME? ynh_backup_before_upgrade
-#REMOVEME? ynh_clean_setup () {
-	if [ $migration_process -eq 1 ]; then
-		yunohost app remove $app
-		# Reload some values changed by the migration process
-#REMOVEME? 		app=$YNH_APP_INSTANCE_NAME
-	fi
-	# Restore it if the upgrade fails
-#REMOVEME? 	ynh_restore_upgradebackup
-}
-# Exit if an error occurs during the execution of the script
-#REMOVEME? ynh_abort_if_errors
 
 #=================================================
 # STANDARD UPGRADE STEPS
@@ -59,66 +22,11 @@ upgrade_type=$(ynh_check_app_version_changed)
 #=================================================
 ynh_script_progression --message="Ensuring downward compatibility..."
 
-# Remove is_public
-#REMOVEME? if [ -n "$(ynh_app_setting_get --app=$app --key=is_public)" ]; then
-	ynh_app_setting_delete --app=$app --key=is_public
-fi
-
-# If db_name doesn't exist, create it
-if [ -z $db_name ]; then
-	db_name=$app
-#REMOVEME? 	ynh_app_setting_set --app=$app --key=db_name --value=$db_name
-fi
-
-# If install_dir doesn't exist, create it
-if [ -z $install_dir ]; then
-#REMOVEME? 	install_dir=/var/www/$app
-#REMOVEME? 	ynh_app_setting_set --app=$app --key=install_dir --value=$install_dir
-fi
-
 # If users_status doesn't exist, create it
-if [ -z $users_status ]; then
+if [ -z "${users_status:-}" ]; then
 	users_status="Editor"
 	ynh_app_setting_set --app=$app --key=users_status --value=$users_status
 fi
-
-if [ -z $password ]; then
-	# Generate random password
-	password=$(ynh_string_random --length=8)
-
-	echo "The new version of SPIP provide a new password. You can change it in the private area." > mail_to_send
-	echo "" >> mail_to_send
-	echo "This password is: $password" >> mail_to_send
-
-	ynh_send_readme_to_admin --app_message="mail_to_send" --type="upgrade"
-	
-#REMOVEME? 	ynh_app_setting_set --app=$app --key=password --value=$password
-fi
-
-# Cleaning legacy permissions
-#REMOVEME? if ynh_legacy_permissions_exists; then
-#REMOVEME? 	ynh_legacy_permissions_delete_all
-fi
-
-#=================================================
-# HANDLE MIGRATION FROM SPIP2
-#=================================================
-
-ynh_handle_app_migration "spip2" "spip2_migration"
-if [ $migration_process -eq 1 ]; then
-	# If a migration has been perform
-	# Reload some values changed by the migration process
-#REMOVEME? #REMOVEME? 	install_dir=$(ynh_app_setting_get --app=$app --key=install_dir)
-#REMOVEME? 	db_name=$(ynh_app_setting_get --app=$app --key=db_name)
-fi
-
-#=================================================
-# CREATE DEDICATED USER
-#=================================================
-#REMOVEME? ynh_script_progression --message="Making sure dedicated system user exists..."
-
-# Create a dedicated user (if not existing)
-#REMOVEME? ynh_system_user_create --username=$app --home_dir="$install_dir"
 
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
@@ -132,16 +40,8 @@ then
 	ynh_setup_source --dest_dir="$install_dir"
 fi
 
-chmod 750 "$install_dir"
 chmod -R o-rwx "$install_dir"
 chown -R $app:www-data "$install_dir"
-
-#=================================================
-# UPGRADE DEPENDENCIES
-#=================================================
-#REMOVEME? ynh_script_progression --message="Upgrading dependencies..."
-
-#REMOVEME? ynh_install_app_dependencies $pkg_dependencies
 
 #=================================================
 # PHP-FPM CONFIGURATION
@@ -214,6 +114,9 @@ ynh_script_progression --message="Updating a configuration file..."
 #ynh_replace_string --match_string="'','utf8');" --replace_string="'ldap.php','utf8');" --target_file=$install_dir/config/connect.php
 cp ../conf/mes_options.php $install_dir/config/mes_options.php
 
+# Add security fix https://www.spip.net/en_article4201.html
+cp ../conf/ecran_securite.php $install_dir/config/ecran_securite.php
+
 if [ ! -f $install_dir/config/connect.php ]; then
 	mv $install_dir/config/connect.php.ynh_bkp $install_dir/config/connect.php
 else
@@ -221,15 +124,6 @@ else
 fi
 
 ynh_store_file_checksum --file="$install_dir/config/connect.php"
-
-#=================================================
-# GENERIC FINALIZATION
-#=================================================
-# RELOAD NGINX
-#=================================================
-#REMOVEME? ynh_script_progression --message="Reloading NGINX web server..."
-
-#REMOVEME? ynh_systemd_action --service_name=nginx --action=reload
 
 #=================================================
 # SEND INFORMATION

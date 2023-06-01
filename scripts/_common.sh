@@ -4,10 +4,6 @@
 # COMMON VARIABLES
 #=================================================
 
-#REMOVEME? YNH_PHP_VERSION="7.4"
-
-#REMOVEME? pkg_dependencies="libsodium23 php${YNH_PHP_VERSION}-curl php${YNH_PHP_VERSION}-xml php${YNH_PHP_VERSION}-gd php${YNH_PHP_VERSION}-mysqli php${YNH_PHP_VERSION}-zip"
-
 #=================================================
 # EXPERIMENTAL HELPERS
 #=================================================

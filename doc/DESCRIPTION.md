@@ -1,0 +1,1 @@
+CMS with a focus on collaborative edition and multilingualism
