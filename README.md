@@ -32,7 +32,7 @@ CMS with a focus on collaborative edition and multilingualism
 * Official user documentation: <https://www.spip.net/en_rubrique57.html>
 * Official admin documentation: <https://www.spip.net/en_rubrique209.html>
 * Upstream app code repository: <https://git.spip.net/spip/spip>
-* YunoHost documentation for this app: <https://yunohost.org/app_spip>
+* YunoHost Store: <https://apps.yunohost.org/app/spip>
 * Report a bug: <https://github.com/YunoHost-Apps/spip_ynh/issues>
 
 ## Developer info
