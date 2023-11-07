@@ -18,7 +18,7 @@ Si vous n’avez pas YunoHost, regardez [ici](https://yunohost.org/#/install) po
 
 CMS with a focus on collaborative edition and multilingualism
 
-**Version incluse :** 4.2.2~ynh2
+**Version incluse :** 4.2.6~ynh2
 
 **Démo :** https://demo.spip.net/
 
