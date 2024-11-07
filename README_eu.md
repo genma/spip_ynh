@@ -5,7 +5,7 @@ EZ editatu eskuz.
 
 # SPIP YunoHost-erako
 
-[![Integrazio maila](https://dash.yunohost.org/integration/spip.svg)](https://dash.yunohost.org/appci/app/spip) ![Funtzionamendu egoera](https://ci-apps.yunohost.org/ci/badges/spip.status.svg) ![Mantentze egoera](https://ci-apps.yunohost.org/ci/badges/spip.maintain.svg)
+[![Integrazio maila](https://dash.yunohost.org/integration/spip.svg)](https://ci-apps.yunohost.org/ci/apps/spip/) ![Funtzionamendu egoera](https://ci-apps.yunohost.org/ci/badges/spip.status.svg) ![Mantentze egoera](https://ci-apps.yunohost.org/ci/badges/spip.maintain.svg)
 
 [![Instalatu SPIP YunoHost-ekin](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=spip)
 

@@ -5,7 +5,7 @@ NON debe editarse manualmente.
 
 # SPIP para YunoHost
 
-[![Nivel de integración](https://dash.yunohost.org/integration/spip.svg)](https://dash.yunohost.org/appci/app/spip) ![Estado de funcionamento](https://ci-apps.yunohost.org/ci/badges/spip.status.svg) ![Estado de mantemento](https://ci-apps.yunohost.org/ci/badges/spip.maintain.svg)
+[![Nivel de integración](https://dash.yunohost.org/integration/spip.svg)](https://ci-apps.yunohost.org/ci/apps/spip/) ![Estado de funcionamento](https://ci-apps.yunohost.org/ci/badges/spip.status.svg) ![Estado de mantemento](https://ci-apps.yunohost.org/ci/badges/spip.maintain.svg)
 
 [![Instalar SPIP con YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=spip)
 

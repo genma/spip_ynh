@@ -5,7 +5,7 @@ No se debe editar a mano.
 
 # SPIP para Yunohost
 
-[![Nivel de integración](https://dash.yunohost.org/integration/spip.svg)](https://dash.yunohost.org/appci/app/spip) ![Estado funcional](https://ci-apps.yunohost.org/ci/badges/spip.status.svg) ![Estado En Mantención](https://ci-apps.yunohost.org/ci/badges/spip.maintain.svg)
+[![Nivel de integración](https://dash.yunohost.org/integration/spip.svg)](https://ci-apps.yunohost.org/ci/apps/spip/) ![Estado funcional](https://ci-apps.yunohost.org/ci/badges/spip.status.svg) ![Estado En Mantención](https://ci-apps.yunohost.org/ci/badges/spip.maintain.svg)
 
 [![Instalar SPIP con Yunhost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=spip)
 
@@ -37,7 +37,7 @@ CMS with a focus on collaborative edition and multilingualism
 
 ## Información para desarrolladores
 
-Por favor enviar sus correcciones a la [`branch testing`](https://github.com/YunoHost-Apps/spip_ynh/tree/testing
+Por favor enviar sus correcciones a la [rama `testing`](https://github.com/YunoHost-Apps/spip_ynh/tree/testing).
 
 Para probar la rama `testing`, sigue asÍ:
 
