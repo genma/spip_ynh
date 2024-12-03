@@ -111,7 +111,7 @@ ynh_script_progression --message="Updating a configuration file..."
 cp ../conf/mes_options.php $install_dir/config/mes_options.php
 
 # Add security fix https://www.spip.net/en_article4201.html to be removed after version 4.2.2
-cp ../conf/ecran_securite.php $install_dir/config/ecran_securite.php
+#cp ../conf/ecran_securite.php $install_dir/config/ecran_securite.php
 
 if [ ! -f $install_dir/config/connect.php ]; then
 	mv $install_dir/config/connect.php.ynh_bkp $install_dir/config/connect.php
