@@ -5,7 +5,9 @@ EZ editatu eskuz.
 
 # SPIP YunoHost-erako
 
-[![Integrazio maila](https://dash.yunohost.org/integration/spip.svg)](https://dash.yunohost.org/appci/app/spip) ![Funtzionamendu egoera](https://ci-apps.yunohost.org/ci/badges/spip.status.svg) ![Mantentze egoera](https://ci-apps.yunohost.org/ci/badges/spip.maintain.svg)
+[![Integrazio maila](https://apps.yunohost.org/badge/integration/spip)](https://ci-apps.yunohost.org/ci/apps/spip/)
+![Funtzionamendu egoera](https://apps.yunohost.org/badge/state/spip)
+![Mantentze egoera](https://apps.yunohost.org/badge/maintained/spip)
 
 [![Instalatu SPIP YunoHost-ekin](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=spip)
 
@@ -18,7 +20,7 @@ EZ editatu eskuz.
 
 CMS with a focus on collaborative edition and multilingualism
 
-**Paketatutako bertsioa:** 4.2.6~ynh2
+**Paketatutako bertsioa:** 4.3.3~ynh1
 
 **Demoa:** <https://demo.spip.net/>
 
