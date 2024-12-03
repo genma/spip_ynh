@@ -5,7 +5,9 @@ Ini TIDAK boleh diedit dengan tangan.
 
 # SPIP untuk YunoHost
 
-[![Tingkat integrasi](https://dash.yunohost.org/integration/spip.svg)](https://ci-apps.yunohost.org/ci/apps/spip/) ![Status kerja](https://ci-apps.yunohost.org/ci/badges/spip.status.svg) ![Status pemeliharaan](https://ci-apps.yunohost.org/ci/badges/spip.maintain.svg)
+[![Tingkat integrasi](https://apps.yunohost.org/badge/integration/spip)](https://ci-apps.yunohost.org/ci/apps/spip/)
+![Status kerja](https://apps.yunohost.org/badge/state/spip)
+![Status pemeliharaan](https://apps.yunohost.org/badge/maintained/spip)
 
 [![Pasang SPIP dengan YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=spip)
 
@@ -18,7 +20,7 @@ Ini TIDAK boleh diedit dengan tangan.
 
 CMS with a focus on collaborative edition and multilingualism
 
-**Versi terkirim:** 4.2.6~ynh2
+**Versi terkirim:** 4.3.3~ynh1
 
 **Demo:** <https://demo.spip.net/>
 

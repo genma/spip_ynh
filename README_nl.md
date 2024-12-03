@@ -5,7 +5,9 @@ Hij mag NIET handmatig aangepast worden.
 
 # SPIP voor Yunohost
 
-[![Integratieniveau](https://dash.yunohost.org/integration/spip.svg)](https://ci-apps.yunohost.org/ci/apps/spip/) ![Mate van functioneren](https://ci-apps.yunohost.org/ci/badges/spip.status.svg) ![Onderhoudsstatus](https://ci-apps.yunohost.org/ci/badges/spip.maintain.svg)
+[![Integratieniveau](https://apps.yunohost.org/badge/integration/spip)](https://ci-apps.yunohost.org/ci/apps/spip/)
+![Mate van functioneren](https://apps.yunohost.org/badge/state/spip)
+![Onderhoudsstatus](https://apps.yunohost.org/badge/maintained/spip)
 
 [![SPIP met Yunohost installeren](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=spip)
 
@@ -18,7 +20,7 @@ Hij mag NIET handmatig aangepast worden.
 
 CMS with a focus on collaborative edition and multilingualism
 
-**Geleverde versie:** 4.2.6~ynh2
+**Geleverde versie:** 4.3.3~ynh1
 
 **Demo:** <https://demo.spip.net/>
 
