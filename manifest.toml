@@ -54,9 +54,10 @@ ram.runtime = "50M"
 
 [resources]
         [resources.sources.main]
-        url = "https://files.spip.net/spip/archives/spip-v4.3.3.zip"
-        sha256 = "e2a7e6094a398843b83d22f6ab4ed2433ceea8278ef183da0e324c31ef95ac60"
-        in_subdir = false
+        url = "https://git.spip.net/spip/spip/-/archive/v4.3.5/spip-v4.3.5.tar.bz2"
+        sha256 = "40e7f9d17dcb6e61a334757f745556853f864fe80c0476ee30526b4fa8c6c041"
+        in_subdir = true
+        autoupdate.strategy = "latest_gitlab_tag"
 
 
     [resources.system_user]
