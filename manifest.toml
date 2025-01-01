@@ -5,7 +5,7 @@ name = "SPIP"
 description.en = "CMS with a focus on collaborative edition and multilingualism"
 description.fr = "CMS conçu pour l'édition collaborative et le multilinguisme"
 
-version = "4.3.5~ynh1"
+version = "4.3.5~ynh2"
 
 maintainers = ["cyp"]
 
@@ -67,7 +67,7 @@ ram.runtime = "50M"
     main.url = "/"
 
     [resources.apt]
-    packages = "mariadb-server libsodium23 php8.2-curl php8.2-xml php8.2-gd php8.2-mysqli php8.2-zip"
+    packages = "mariadb-server libsodium23 sqlite3 php8.2-sqlite3 php8.2-curl php8.2-xml php8.2-gd php8.2-mysqli php8.2-zip"
 
 
     [resources.database]
