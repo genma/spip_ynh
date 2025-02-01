@@ -18,7 +18,7 @@ NON DEVE essere modificato manualmente.
 
 CMS with a focus on collaborative edition and multilingualism
 
-**Versione pubblicata:** 4.2.6~ynh2
+**Versione pubblicata:** 4.3.6~ynh1
 
 **Prova:** <https://demo.spip.net/>
 
