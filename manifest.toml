@@ -5,7 +5,7 @@ name = "SPIP"
 description.en = "CMS with a focus on collaborative edition and multilingualism"
 description.fr = "CMS conçu pour l'édition collaborative et le multilinguisme"
 
-version = "4.4.4~ynh1"
+version = "4.4.5~ynh1"
 
 maintainers = ["cyp"]
 
@@ -54,8 +54,8 @@ ram.runtime = "50M"
 
 [resources]
         [resources.sources.main]
-        url = "https://files.spip.net/spip/archives/spip-v4.4.4.zip"
-        sha256 = "08fa2fd9623dead8d7e57f0fb5929906b1bcf2feba95376632a4d786923386a2"
+        url = "https://files.spip.net/spip/archives/spip-v4.4.5.zip"
+        sha256 = "d00d4e39f636cc91d7f32262ec934f32491c3517e572721ef953124b154f3c60"
         in_subdir = false
 
 
@@ -67,7 +67,7 @@ ram.runtime = "50M"
     main.url = "/"
 
     [resources.apt]
-    packages = "mariadb-server libsodium23 sqlite3 php8.2-sqlite3 php8.2-curl php8.2-xml php8.2-gd php8.2-mysqli php8.2-zip"
+    packages = "mariadb-server libsodium23 sqlite3 php8.4-sqlite3 php8.4-curl php8.4-xml php8.4-gd php8.4-mysqli php8.4-zip"
 
 
     [resources.database]
